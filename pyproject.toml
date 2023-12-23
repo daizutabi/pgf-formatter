@@ -4,12 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pgf-formatter"
-dynamic = ["version"]
 description = "Embedding PDF images in Jupyter notebooks"
 readme = "README.md"
-requires-python = ">=3.8"
 license = "MIT"
-keywords = []
 authors = [{ name = "daizutabi", email = "daizutabi@gmail.com" }]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -22,44 +19,50 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
+dynamic = ["version"]
+requires-python = ">=3.8"
 dependencies = ["matplotlib", "ipython"]
 
 [project.urls]
-Documentation = "https://github.com/daizutabi/pgf-formatter#readme"
-Issues = "https://github.com/daizutabi/pgf-formatter/issues"
+Documentation = "https://github.com/daizutabi/pgf-formatter#readme" # FIXME
 Source = "https://github.com/daizutabi/pgf-formatter"
+Issues = "https://github.com/daizutabi/pgf-formatter/issues"
 
 [tool.hatch.version]
 path = "src/pgf_formatter/__about__.py"
 
-[tool.hatch.envs.default]
-dependencies = ["coverage[toml]>=6.5", "pytest"]
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-cov-report = ["- coverage combine", "coverage report"]
-cov = ["test-cov", "cov-report"]
+[tool.hatch.build.targets.sdist]
+exclude = ["/.github", "/docs"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/pgf_formatter"]
 
 [[tool.hatch.envs.all.matrix]]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
-[tool.hatch.envs.types]
-dependencies = ["mypy>=1.0.0"]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/pgf_formatter tests}"
+[tool.hatch.envs.default]
+dependencies = ["pytest-cov"]
+[tool.hatch.envs.default.scripts]
+test = "pytest"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--verbose",
+  "--color=yes",
+  "--doctest-modules",
+  "--cov=pgf_formatter",
+  "--cov-report=term:skip-covered",
+  "--cov-report=lcov:lcov.info",
+]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
+testpaths = ["tests", "src/pgf_formatter"]
 
 [tool.coverage.run]
-source_pkgs = ["pgf_formatter", "tests"]
 branch = true
 parallel = true
 omit = ["src/pgf_formatter/__about__.py"]
 
-[tool.coverage.paths]
-pgf_formatter = ["src/pgf_formatter", "*/pgf-formatter/src/pgf_formatter"]
-tests = ["tests", "*/pgf-formatter/tests"]
-
 [tool.coverage.report]
-exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+exclude_lines = ["no cov"]
 
 [tool.ruff]
 target-version = "py38"
@@ -73,9 +76,3 @@ known-first-party = ["pgf_formatter"]
 unfixable = [
   "RUF100", # Don't touch noqa lines
 ]
-
-[tool.hatch.build.targets.sdist]
-exclude = ["/.github", "/docs"]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/pgf_formatter"]
