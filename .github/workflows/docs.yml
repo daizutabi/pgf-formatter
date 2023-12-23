@@ -3,20 +3,16 @@ on:
   push:
     branches: [main]
     tags: ['*']
+permissions:
+  contents: write
 jobs:
   docs:
     name: Documentation
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      statuses: write
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.11
-      - name: Install Hatch
-        run: pip install --upgrade hatch
-      - name: Deploy documentation
-        run: hatch run docs:deploy
+      - run: pip install mkdocs-material
+      - run: mkdocs gh-deploy --force
