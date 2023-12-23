@@ -52,7 +52,6 @@ addopts = [
   "--cov=pgf_formatter",
   "--cov-report=term:skip-covered",
   "--cov-report=lcov:lcov.info",
-  "--cov-report=xml",
 ]
 doctest_optionflags = ["NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
 testpaths = ["tests", "src/pgf_formatter"]

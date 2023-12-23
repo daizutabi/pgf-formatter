@@ -50,7 +50,4 @@ jobs:
       if: success()
       uses: codecov/codecov-action@v3
       with:
-        file: ./coverage.xml
-        flags: unittests
-        name: ${{ matrix.os }}/${{ matrix.python-version }}
-        fail_ci_if_error: false
+        file: lcov.info
