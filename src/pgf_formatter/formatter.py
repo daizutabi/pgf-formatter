@@ -22,8 +22,8 @@ def matplotlib_figure_to_pgf(fig: Figure, p, cycle):
     with io.StringIO() as fp:
         try:
             fig.savefig(fp, format="pgf", bbox_inches="tight")
-        except ValueError:
-            text = "Figure"
+        except ValueError:  # no cov
+            text = "Figure"  # no cov
         else:
             text = fp.getvalue()
     p.text(text)
