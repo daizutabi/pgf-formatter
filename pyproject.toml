@@ -57,8 +57,6 @@ doctest_optionflags = ["NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
 testpaths = ["tests", "src/pgf_formatter"]
 
 [tool.coverage.run]
-branch = true
-parallel = true
 omit = ["src/pgf_formatter/__about__.py"]
 
 [tool.coverage.report]
