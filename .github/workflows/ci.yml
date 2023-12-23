@@ -1,10 +1,9 @@
-name: test
+name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
 
 concurrency:
   group: test-${{ github.head_ref }}
@@ -25,7 +24,7 @@ jobs:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install Linux dependencies
       if: startsWith(runner.os, 'Linux')
@@ -46,3 +45,12 @@ jobs:
 
     - name: Run tests
       run: hatch run test
+
+    - name: Upload Codecov Results
+      if: success()
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: ${{ matrix.os }}/${{ matrix.python-version }}
+        fail_ci_if_error: false
