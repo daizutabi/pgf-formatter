@@ -1,4 +1,7 @@
 site_name: pgf-formatter
 
+theme:
+  name: material
+
 nav:
   - Home: index.md
