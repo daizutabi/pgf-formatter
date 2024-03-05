@@ -24,7 +24,7 @@ requires-python = ">=3.8"
 dependencies = ["matplotlib", "ipython"]
 
 [project.urls]
-Documentation = "https://github.com/daizutabi/pgf-formatter#readme" # FIXME
+Documentation = "https://daizutabi.github.io/pgf-formatter/"
 Source = "https://github.com/daizutabi/pgf-formatter"
 Issues = "https://github.com/daizutabi/pgf-formatter/issues"
 
@@ -42,7 +42,7 @@ python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 [tool.hatch.envs.default]
 dependencies = ["pytest-cov"]
 [tool.hatch.envs.default.scripts]
-test = "pytest"
+test = "pytest {args:tests src/pgf_formatter}"
 
 [tool.pytest.ini_options]
 addopts = [
@@ -50,11 +50,11 @@ addopts = [
   "--color=yes",
   "--doctest-modules",
   "--cov=pgf_formatter",
-  "--cov-report=term:skip-covered",
   "--cov-report=lcov:lcov.info",
+  # "--cov-report=term:skip-covered",
 ]
 doctest_optionflags = ["NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
-testpaths = ["tests", "src/pgf_formatter"]
+# testpaths = ["tests", "src/pgf_formatter"]
 
 [tool.coverage.run]
 omit = ["src/pgf_formatter/__about__.py"]
